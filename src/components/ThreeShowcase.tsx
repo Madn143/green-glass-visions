@@ -1,7 +1,7 @@
 
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
 const GlassShapes = () => {
@@ -16,7 +16,8 @@ const GlassShapes = () => {
   return (
     <group ref={group}>
       {/* Central sphere */}
-      <Sphere args={[1]} position={[0, 0, 0]}>
+      <mesh position={[0, 0, 0]}>
+        <sphereGeometry args={[1, 32, 32]} />
         <meshPhysicalMaterial
           color="#059669"
           transparent
@@ -25,17 +26,17 @@ const GlassShapes = () => {
           metalness={0.1}
           transmission={0.8}
         />
-      </Sphere>
+      </mesh>
       
       {/* Orbiting smaller spheres */}
       {[...Array(6)].map((_, i) => {
         const angle = (i / 6) * Math.PI * 2;
         return (
-          <Sphere
+          <mesh
             key={i}
-            args={[0.3]}
             position={[Math.cos(angle) * 2.5, Math.sin(angle * 0.5), Math.sin(angle) * 2.5]}
           >
+            <sphereGeometry args={[0.3, 16, 16]} />
             <meshPhysicalMaterial
               color="#10b981"
               transparent
@@ -44,7 +45,7 @@ const GlassShapes = () => {
               metalness={0.2}
               transmission={0.9}
             />
-          </Sphere>
+          </mesh>
         );
       })}
     </group>
